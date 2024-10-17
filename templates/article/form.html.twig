@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Ajout Article</title>
+</head>
+<body class="bg-white">
+
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-blue-500 text-gray-800 border-r border-blue-200">
+        <div class="p-4 border-b border-blue-200">
+            <h1 class="text-2xl font-bold text-black text-center">Gestion Dettes</h1>
+        </div>
+        <ul class="mt-4">
+            <!-- Dashboard -->
+            <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200">
+                <a href="#" class="flex items-center space-x-2">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <!-- Dettes -->
+            <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
+                <a href="#" class="flex items-center space-x-2">
+                    <span>💰</span>
+                    <span>Dettes</span>
+                </a>
+            </li>
+            <!-- Clients -->
+            <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
+                <a href="{{path('client.index')}}" class="flex items-center space-x-2">
+                    <span>👥</span>
+                    <span>Clients</span>
+                </a>
+            </li>
+            <!-- Articles -->
+            <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
+                <a href="{{path('article.index')}}" class="flex items-center space-x-2">
+                    <span>🛒</span>
+                    <span>Articles</span>
+                </a>
+            </li>
+            <!-- Demandes -->
+            <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
+                <a href="#" class="flex items-center space-x-2">
+                    <span>📝</span>
+                    <span>Demandes</span>
+                </a>
+            </li>
+            <!-- Utilisateurs -->
+            <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
+                <a href="#" class="flex items-center space-x-2">
+                    <span>🔑</span>
+                    <span>Utilisateurs</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        {{form(formArticle)}}
+    </div>
+   
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-300 text-center py-4 mt-auto border-t border-gray-300">
+    <p class="text-black">&copy; 2024 Mon Application. Tous droits réservés.</p>
+</footer>
+
+</body>
+</html>

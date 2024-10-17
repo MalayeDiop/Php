@@ -1,0 +1,22 @@
+{# templates/form/tailwind_form_theme.html.twig #}
+
+{% block form_row %}
+    <div class="mb-5 mx-auto ">
+        {{ form_label(form) }}
+        {{ form_widget(form, { attr: { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white sm:text-sm' } }) }}
+        {{ form_errors(form) }}
+    </div>
+{% endblock %}
+
+
+{% block form_label %}
+    <label class="text-sm font-medium text-white" for="{{ id }}">{{ label|trans }}</label>
+{% endblock %}
+
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        <div class="text-red-600 text-sm mt-1">
+            {{ errors|first.message }}
+        </div>
+    {% endif %}
+{% endblock %}
