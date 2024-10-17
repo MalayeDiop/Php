@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Liste des Clients</title>
 </head>
-<body class="bg-gray-300">
+<body class="bg-white">
 
 <div class="flex h-screen">
     <!-- Sidebar -->
@@ -24,7 +24,7 @@
             </li>
             <!-- Dettes -->
             <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
-                <a href="#" class="flex items-center space-x-2">
+                <a href="{{path('dette.index')}}" class="flex items-center space-x-2">
                     <span>💰</span>
                     <span>Dettes</span>
                 </a>
@@ -94,7 +94,7 @@
                         <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-blue-200">
+                <tbody class="divide-y divide-black">
                 {% for client in clients %}
                     <tr class="hover:bg-blue-300">
                         <td class="py-4 px-6 text-gray-800">{{ client.nom }}</td>
@@ -102,9 +102,10 @@
                         <td class="py-4 px-6 text-gray-800">{{ client.telephone }}</td>
                         <td class="py-4 px-6 text-gray-800">{{ client.adresse }}</td>
                         <td class="py-4 px-6 text-gray-800">
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow mr-2">
-                                Modifier
-                            </button>
+                            <form action="{{ path('client.dettes', {id: client.id}) }}" method="post" style="display:inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('dettes' ~ client.id) }}">
+                                <button type="submit" class="bg-blue-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow">Dettes</button>
+                            </form>
                             <form action="{{ path('client.remove', {id: client.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');" style="display:inline;">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
                                 <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow">Supprimer</button>
@@ -119,10 +120,10 @@
             </tbody>
             </table>
 
-            <div class="mt-4 flex justify-center space-x-2">
+            <div class="mt-4 mb-4 flex justify-center space-x-2">
                 {% if currentPage > 1 %}
-                    <a href="{{ path('client.index', {'page': 1}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Première</a>
-                    <a href="{{ path('client.index', {'page': currentPage - 1}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Précédent</a>
+                    <a href="{{ path('client.index', {'page': 1}) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Première</a>
+                    <a href="{{ path('client.index', {'page': currentPage - 1}) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Précédent</a>
                 {% endif %}
 
                 {% for i in 1..totalPages %}

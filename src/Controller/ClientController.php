@@ -15,17 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     #[Route('/client', name: 'client.index', methods:['GET'])]
-    public function index(EntityManagerInterface $entityManager, Request $request, ClientEntityRepository $clientRepository): Response
+    public function index(Request $request, ClientEntityRepository $clientRepository): Response
     {
-        // Paramètres pour la pagination
-        $limit = 3;
         $page = $request->query->getInt('page', 1);
-        $offset = ($page - 1) * $limit;
-        $clients = $clientRepository->findBy([], null, $limit, $offset);
-        $totalClients = $clientRepository->count([]);
-        $totalPages = ceil($totalClients / $limit);
-        $clients = $entityManager->getRepository(ClientEntity::class)->findAll();
-        
+        $count = 0;
+        $totalPages = 0;
+        $limit = 3;
+        $clients = $clientRepository->paginateClients($page, $limit);
+        $count = $clients->count();
+        $totalPages = ceil($count/$limit);
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
             'currentPage' => $page,
@@ -44,24 +42,22 @@ class ClientController extends AbstractController
 
     //Utilisation des Query params
     #[Route('/client/search/tel', name: 'client.searchClientByTel', methods:['GET'])]
-    public function searchClientByTel(EntityManagerInterface $entityManager, Request $request, ClientEntityRepository $clientRepository): Response
+    public function searchClientByTel(Request $request, ClientEntityRepository $clientRepository): Response
     {
-        $limit = 10; // Nombre de clients par page
-        $page = $request->query->getInt('page', 1); // Page actuelle
-        $offset = ($page - 1) * $limit; // Calcul de l'offset
-        // $tel = $request->query->get('tel');
+        $page = $request->query->getInt('page', 1);
+        $count = 0;
+        $totalPages = 0;
+        $limit = 3;
         $tel = $request->query->get('searchPhone');
 
         if ($tel) {
-            // Si une recherche par téléphone est effectuée
-            $clients = $clientRepository->findBy(['telephone' => $tel], null, $limit, $offset);
+            $clients = $clientRepository->findBy(['telephone' => $tel]);
             $totalClients = count($clients);
         } else {
-            // Sinon, récupération de tous les clients
-            $clients = $clientRepository->findBy([], null, $limit, $offset);
-            $totalClients = $clientRepository->count([]);
+            $clients = $clientRepository->paginateClients($page, $limit);
+            $count = $clients->count();
+            $totalPages = ceil($count/$limit);
         }
-        $totalPages = ceil($totalClients / $limit);
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
             'currentPage' => $page,
@@ -76,10 +72,11 @@ class ClientController extends AbstractController
         $client = new ClientEntity();
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $client->setCreateAt(new \DateTimeImmutable()); 
+            // $client->setUpdateAt(new \DateTimeImmutable()); 
             $entityManager->persist($client);
             $entityManager->flush();
-
             return $this->redirectToRoute('client.index');
         }
         return $this->render('client/form.html.twig', [
@@ -100,6 +97,19 @@ class ClientController extends AbstractController
         // return $this->render('client/index.html.twig', [
         //     'controller_name' => 'ClientController',
         // ]);
+    }
+
+    #[Route('/client/{id}/dettes', name: 'client.dettes')]
+    public function listDettes(ClientEntity $client): Response
+    {
+        // Récupérer les dettes liées au client
+        $dettes = $client->getDettes();
+
+        // Afficher les dettes dans une vue Twig
+        return $this->render('client/dette.client.html.twig', [
+            'client' => $client,
+            'dettes' => $dettes,
+        ]);
     }
 }
 

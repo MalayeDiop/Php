@@ -2,45 +2,41 @@
 
 namespace App\Form;
 
-use App\Entity\ArticleEntity;
+use App\Entity\DetteEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ArticleType extends AbstractType
+class DetteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ref', TextType::class, [
+            ->add('montant', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'Référence',
+                    'placeholder' => 'Entrez le montant',
                 ],
-                'label' => 'Référence',
+                'label' => 'Montant',
         ])
-            ->add('libelle', TextType::class, [
+            ->add('montantverse', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'Libelle',
+                    'placeholder' => 'Entrez le montant versé',
                 ],
-                'label' => 'Libelle',
+                'label' => 'Montant versé',
         ])
-            ->add('qte_stock', TextType::class, [
+            ->add('montantrestant', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'Qte Stock',
+                    'placeholder' => 'Entrez le montant restant',
                 ],
-                'label' => 'Qte Stock',
-        ])
-            ->add('prix', TextType::class, [
-                'attr' => [
-                    'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'Prix',
-                ],
-                'label' => 'Prix',
+                'label' => 'Montant restant',
         ])
             ->add('Save', SubmitType::class,[
                 'attr' => [
@@ -53,7 +49,7 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ArticleEntity::class,
+            'data_class' => DetteEntity::class,
         ]);
     }
 }

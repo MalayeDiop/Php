@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Ajout Client</title>
+    <title>Liste des Clients</title>
 </head>
 <body class="bg-white">
 
@@ -24,7 +24,7 @@
             </li>
             <!-- Dettes -->
             <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
-                <a href="#" class="flex items-center space-x-2">
+                <a href="{{path('dette.index')}}" class="flex items-center space-x-2">
                     <span>💰</span>
                     <span>Dettes</span>
                 </a>
@@ -60,15 +60,7 @@
         </ul>
     </div>
 
-    <div class="mx-auto p-6 bg-gray-300 border-1 border-black h-87 rounded-lg shadow-lg w-full max-w-md">
-        <div class="max-w-lg mx-auto">
-            <h2 class="text-2xl font-semibold text-black mb-6 text-center">Ajouter un Client</h2>
-            <form class="space-y-4">
-                {{form(formClient)}}
-            </form>
-        </div>
-    </div>
-   
+    
 </div>
 
 <!-- Footer -->

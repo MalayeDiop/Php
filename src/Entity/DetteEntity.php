@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DetteEntityRepository::class)]
+#[ORM\Table(name: "dettes")]
 class DetteEntity
 {
     #[ORM\Id]
@@ -14,40 +15,40 @@ class DetteEntity
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    // #[ORM\Column(type: Types::DATE_MUTABLE)]
+    // private ?\DateTimeInterface $date = null;
 
     #[ORM\Column]
     private ?int $montant = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $montantVerse = null;
+    private ?int $montantverse = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $montantRestant = null;
+    private ?int $montantrestant = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
+    // #[ORM\Column]
+    // private ?\DateTimeImmutable $createAt = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
+    // #[ORM\Column]
+    // private ?\DateTimeImmutable $updateAt = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
+    // public function getDate(): ?\DateTimeInterface
+    // {
+    //     return $this->date;
+    // }
 
-    public function setDate(\DateTimeInterface $date): static
-    {
-        $this->date = $date;
+    // public function setDate(\DateTimeInterface $date): static
+    // {
+    //     $this->date = $date;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getMontant(): ?int
     {
@@ -63,49 +64,49 @@ class DetteEntity
 
     public function getMontantVerse(): ?int
     {
-        return $this->montantVerse;
+        return $this->montantverse;
     }
 
-    public function setMontantVerse(?int $montantVerse): static
+    public function setMontantVerse(?int $montantverse): static
     {
-        $this->montantVerse = $montantVerse;
+        $this->montantverse = $montantverse;
 
         return $this;
     }
 
     public function getMontantRestant(): ?int
     {
-        return $this->montantRestant;
+        return $this->montantrestant;
     }
 
-    public function setMontantRestant(?int $montantRestant): static
+    public function setMontantRestant(?int $montantrestant): static
     {
-        $this->montantRestant = $montantRestant;
+        $this->montantrestant = $montantrestant;
 
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
+    // public function getCreateAt(): ?\DateTimeImmutable
+    // {
+    //     return $this->createAt;
+    // }
 
-    public function setCreateAt(\DateTimeImmutable $createAt): static
-    {
-        $this->createAt = $createAt;
+    // public function setCreateAt(\DateTimeImmutable $createAt): static
+    // {
+    //     $this->createAt = $createAt;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
+    // public function getUpdateAt(): ?\DateTimeImmutable
+    // {
+    //     return $this->updateAt;
+    // }
 
-    public function setUpdateAt(\DateTimeImmutable $updateAt): static
-    {
-        $this->updateAt = $updateAt;
+    // public function setUpdateAt(\DateTimeImmutable $updateAt): static
+    // {
+    //     $this->updateAt = $updateAt;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }

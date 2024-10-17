@@ -4,10 +4,13 @@ namespace App\Form;
 
 use App\Entity\ClientEntity;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use \Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ClientType extends AbstractType
 {
@@ -15,36 +18,53 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'nom',
+                    'placeholder' => 'Entrez le nom',
+                    // 'pattern' => '^([77|76|78|70])[0-9]{7}$',
                 ],
-                'label' => 'nom',
+                'label' => 'Nom',
         ])
             ->add('prenom', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'prenom',
+                    'placeholder' => 'Entrez le prénom',
                 ],
-                'label' => 'prenom',
+                'label' => 'Prenom',
         ])
             ->add('telephone', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'Téléphone',
+                    'placeholder' => 'Entrez le numéro de téléphone',
                 ],
                 'label' => 'Téléphone',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un numéro valable',
+                    ]),
+                    new NotNull([
+                        'message' => 'Ce champ ne peut pas être nul',
+                    ]),
+                    new Regex(
+                        '/^(77|76|78|70)([0-9]{7})$/',
+                        'Ce numéro est invalide',
+                    ),
+                ],
         ])
             ->add('adresse', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'mt-2 block w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm',
-                    'placeholder' => 'Adresse',
+                    'placeholder' => 'Quel est votre adresse ?',
                 ],
                 'label' => 'Adresse',
         ])
             ->add('Save', SubmitType::class,[
             'attr' => [
-                    'class' => 'mt-2 block w-20 px-4 py-2 border border-gray-300 rounded-md',
+                    'class' => 'w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600',
                 ],
         ]);
     }

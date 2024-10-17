@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\ArticleEntity;  
 use App\Form\ArticleType;
+use App\Entity\ArticleEntity;  
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\Repository\ArticleEntityRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleController extends AbstractController
 {
@@ -36,6 +37,18 @@ class ArticleController extends AbstractController
         }
         return $this->render('article/form.html.twig', [
             'formArticle' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/article/search/libelle', name: 'article.searchArticle', methods:['GET'])]
+    public function searchArticle(Request $request, ArticleEntityRepository $articleRepository): Response
+    {
+        $libelle = $request->query->get('searchArt');
+        if ($libelle) {
+            $articles = $articleRepository->findBy(['libelle' => $libelle]);
+        }
+        return $this->render('article/index.html.twig', [
+            'articles' => $articles,
         ]);
     }
 }

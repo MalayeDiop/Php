@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\ArticleEntityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ArticleEntityRepository::class)]
 #[ORM\Table(name: 'articles')]
+#[UniqueEntity('libelle', message: 'Cet article existe déjà')]
 class ArticleEntity
 {
     #[ORM\Id]
@@ -22,6 +25,8 @@ class ArticleEntity
 
     #[ORM\Column(type: 'integer', length: 15)]
     private ?int $qte_stock = null;
+    // #[ORM\Column(type: 'integer', length: 15)]
+    // private ?int $qteStock = null;
 
     #[ORM\Column(type: 'integer', length: 15)]
     private ?int $prix = null;
@@ -66,6 +71,18 @@ class ArticleEntity
 
         return $this;
     }
+
+    // public function getQteStock(): ?int
+    // {
+    //     return $this->qteStock;
+    // }
+
+    // public function setQteStock(int $qteStock): self
+    // {
+    //     $this->qteStock = $qteStock;
+
+    //     return $this;
+    // }
 
     public function getPrix(): ?int
     {

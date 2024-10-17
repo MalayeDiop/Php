@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Liste des Clients</title>
+    <title>Ajout Client</title>
 </head>
 <body class="bg-white">
 
@@ -24,7 +24,7 @@
             </li>
             <!-- Dettes -->
             <li class="hover:bg-blue-200 p-3 rounded-lg transition duration-200 mt-2">
-                <a href="{{path('dette.index')}}" class="flex items-center space-x-2">
+                <a href="#" class="flex items-center space-x-2">
                     <span>💰</span>
                     <span>Dettes</span>
                 </a>
@@ -60,16 +60,11 @@
         </ul>
     </div>
 
-    <!-- Main Content (Table) -->
-    <div class="flex-1 p-6">
-        <h1 class="text-4xl font-extrabold text-black text-center mb-8 underline tracking-wide">
-            Liste des Articles
-        </h1>
-        <div class="flex justify-between items-center mb-4">
+    <div class="flex justify-between items-center mb-4">
             <div class="flex items-center space-x-2">
-                <form method="get" action="{{ path('article.searchArticle') }}" class="flex items-center space-x-2">
+                <form method="get" action="{{ path('client.searchClientByTel') }}" class="flex items-center space-x-2">
                     <!-- Search input -->
-                    <input type="text" name="searchArt" value="{{ searchArt?? '' }}" placeholder="Rechercher un produit" 
+                    <input type="text" name="searchPhone" value="{{ searchPhone ?? '' }}" placeholder="Rechercher par téléphone" 
                         class="w-2/3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     
                     <!-- OK button -->
@@ -80,45 +75,60 @@
             </div>
             <!-- Add button -->
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow">
-                <a href="{{path('article.store')}}">Ajouter</a>
+                <a href="{{path('client.store')}}">Ajouter</a>
             </button>
         </div>
         <div class="overflow-x-auto rounded-lg shadow">
             <table class="min-w-full bg-white border border-gray-200">
                 <thead class="bg-blue-500 border-b border-gray-200">
                     <tr>
-                        <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Référence</th>
-                        <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Libelle</th>
-                        <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Qte Stock</th>
-                        <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Prix</th>
+                        <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Montant</th>
+                        <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Montant Versé</th>
+                        <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Montant Restant</th>
                         <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-blue-200">
-                {% for article in articles %}
+                <tbody class="divide-y divide-black">
+                {% for dette in dettes %}
                     <tr class="hover:bg-blue-300">
-                        <td class="py-4 px-6 text-gray-800">{{ article.ref }}</td>
-                        <td class="py-4 px-6 text-gray-800">{{ article.libelle }}</td>
-                        <td class="py-4 px-6 text-gray-800">{{ article.qte_stock }}</td>
-                        <td class="py-4 px-6 text-gray-800">{{ article.prix }}</td>
+                        <td class="py-4 px-6 text-gray-800">{{ dette.montant }}</td>
+                        <td class="py-4 px-6 text-gray-800">{{ dette.montant_verse }}</td>
+                        <td class="py-4 px-6 text-gray-800">{{ dette.montant_restant }}</td>
                         <td class="py-4 px-6 text-gray-800">
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow mr-2">
-                                Modifier
+                                Dettes
                             </button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow">
-                                Supprimer
-                            </button>
+                            
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5" class="py-2 px-4 text-center">Aucun article trouvé.</td>
+                        <td colspan="5" class="py-2 px-4 text-center">Aucun client trouvé.</td>
                     </tr>
                 {% endfor %}
             </tbody>
             </table>
+
+            <div class="mt-4 mb-4 flex justify-center space-x-2">
+                {% if currentPage > 1 %}
+                    <a href="{{ path('client.index', {'page': 1}) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Première</a>
+                    <a href="{{ path('client.index', {'page': currentPage - 1}) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Précédent</a>
+                {% endif %}
+
+                {% for i in 1..totalPages %}
+                    <a href="{{ path('client.index', {'page': i}) }}" class="bg-blue-{{ i == currentPage ? '700' : '500' }} hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+                        {{ i }}
+                    </a>
+                {% endfor %}
+
+                {% if currentPage < totalPages %}
+                    <a href="{{ path('client.index', {'page': currentPage + 1}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Suivant</a>
+                    <a href="{{ path('client.index', {'page': totalPages}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Dernière</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    
+   
 </div>
 
 <!-- Footer -->
@@ -128,4 +138,3 @@
 
 </body>
 </html>
-
