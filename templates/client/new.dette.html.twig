@@ -59,51 +59,15 @@
             </li>
         </ul>
     </div>
-    <div class="flex-1 p-6">
-        <h1 class="text-4xl font-extrabold text-black text-center mb-8 underline tracking-wide">
-            Liste des Clients
-        </h1>
-        <div class="flex justify-between items-center mb-4">
-                
-                <!-- Add button -->
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow">
-                    <a href="{{path('client.dette.new')}}">Ajouter</a>
-                </button>
-            </div>
-            <div class="overflow-x-auto rounded-lg shadow">
-                <table class="min-w-full bg-white border border-gray-200">
-                    <thead class="bg-blue-500 border-b border-gray-200">
-                        <tr>
-                            <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Montant</th>
-                            <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Montant Versé</th>
-                            <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Montant Restant</th>
-                            <th class="py-3 px-6 text-left text-black uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-black">
-                    {% for client in clients %}
-                        <tr class="hover:bg-blue-300">
-                            <td class="py-4 px-6 text-gray-800">{{ dette.montant }}</td>
-                            <td class="py-4 px-6 text-gray-800">{{ dette.montant_verse }}</td>
-                            <td class="py-4 px-6 text-gray-800">{{ dette.montant_restant }}</td>
-                            <td class="py-4 px-6 text-gray-800">
-                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow mr-2">
-                                    Supprimer
-                                </button>
-                                
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="5" class="py-2 px-4 text-center">Aucune dette trouvé.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                </table>
 
-                
-            </div>
+    <div class="mx-auto p-6 bg-gray-300 border-1 border-black h-87 rounded-lg shadow-lg w-full max-w-md">
+        <div class="max-w-lg mx-auto">
+            <h2 class="text-2xl font-semibold text-black mb-6 text-center">Ajouter un Client</h2>
+            <form class="space-y-4">
+                {{form(formDette)}}
+            </form>
         </div>
+    </div>
    
 </div>
 

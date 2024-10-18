@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ClientEntity;
+use App\Entity\DetteEntity;
 use App\Form\ClientType;
 use App\Repository\ClientEntityRepository;
 use Doctrine\ORM\EntityManager;
@@ -100,15 +101,34 @@ class ClientController extends AbstractController
     }
 
     #[Route('/client/{id}/dettes', name: 'client.dettes')]
-    public function listDettes(ClientEntity $client): Response
+    public function listDettes(ClientEntity $clients): Response
     {
-        // Récupérer les dettes liées au client
-        $dettes = $client->getDettes();
-
-        // Afficher les dettes dans une vue Twig
+        $dettes = $clients->getDettes();
         return $this->render('client/dette.client.html.twig', [
-            'client' => $client,
+            'clients' => $clients,
             'dettes' => $dettes,
+        ]);
+    }
+
+    #[Route('/client/dette/new', name: 'client.dette.new',  methods:['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $client = new ClientEntity();
+        $dette = new DetteEntity();
+        $dette->setClient($client);
+
+        $form = $this->createForm(DetteType::class, $dette);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($dette);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('client.dettes', ['id' => $client->getId()]);
+        }
+
+        return $this->render('client/new.dette.html.twig', [
+            'formDette' => $form->createView(),
         ]);
     }
 }

@@ -27,6 +27,10 @@ class DetteEntity
     #[ORM\Column(nullable: true)]
     private ?int $montantrestant = null;
 
+    #[ORM\ManyToOne(targetEntity: ClientEntity::class, inversedBy: 'dettes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $client;
+
     // #[ORM\Column]
     // private ?\DateTimeImmutable $createAt = null;
 
@@ -82,6 +86,18 @@ class DetteEntity
     public function setMontantRestant(?int $montantrestant): static
     {
         $this->montantrestant = $montantrestant;
+
+        return $this;
+    }
+
+    public function getClient(): ?ClientEntity
+    {
+        return $this->client;
+    }
+
+    public function setClient(?ClientEntity $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }
